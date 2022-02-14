@@ -1,53 +1,29 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Mon Feb 14 00:38:35 2022
 
-@author: alug
-# Example from https://www.geeksforgeeks.org/voice-assistant-using-python/
-"""
-
-
-import subprocess
-import wolframalpha
 import pyttsx3
-import tkinter
-import json
-import random
-import operator
 import speech_recognition as sr
 import datetime
-import wikipedia
-import webbrowser
-import os
-import winshell
-import pyjokes
-import feedparser
-import smtplib
-import ctypes
-import time
-import requests
 import shutil
-from twilio.rest import Client
-from clint.textui import progress
-# from ecapture import ecapture as ec
-from bs4 import BeautifulSoup
-import win32com.client as wincl
-from urllib.request import urlopen
 
-
+# Defining the voice for pyttsx3
 
 engine = pyttsx3.init('sapi5')
 voices = engine.getProperty('voices')
 engine.setProperty('voice', voices[1].id)
 
 
-
-def speak(audio):
+def speak(audio:str):
+    '''Function to make the Voice Assistant speak.
+    Args:
+        audio : text (str)
+    '''
     engine.say(audio)
     engine.runAndWait()
  
-def wishMe():
-    '''Function to greet the user'''
+def greet():
+    '''Function to greet the user.
+    '''
+
     hour = int(datetime.datetime.now().hour)
     if hour>= 0 and hour<12:
         speak("Good Morning !")
@@ -64,9 +40,12 @@ def wishMe():
      
  
 def username():
+    '''Function to get user's name
+    '''
+
     speak("What should i call you?")
     uname = takeCommand()
-    speak("Welcome ")
+    speak("Welcome!")
     speak(uname)
     columns = shutil.get_terminal_size().columns
      
@@ -74,16 +53,17 @@ def username():
     print("Welcome ", uname.center(columns))
     print("#####################".center(columns))
      
-    speak("How can i Help you, Sir")
+    speak("How can i Help you")
  
 def takeCommand():
-     
+    '''Function to receive a voice command from the microphone.
+    '''
+
     r = sr.Recognizer()
-     
+
     with sr.Microphone() as source:
-         
+        speak("I'm listening")
         print("Listening...")
-        r.pause_threshold = 1
         audio = r.listen(source)
   
     try:
@@ -91,19 +71,15 @@ def takeCommand():
         query = r.recognize_google(audio, language ='en-in')
         print(f"User said: {query}\n")
   
-    except Exception as e:
-        print(e)   
-        print("Unable to Recognize your voice.") 
-        return "None"
-     
+    except sr.UnknownValueError:
+
+        print("Unable to Recognize your voice.")
+        return None
+
+    except sr.RequestError() as e:
+        print('could not request results from Google speech recognition source; {0}'.format(e))
+        return None
+
+
     return query
   
-def sendEmail(to, content):
-    server = smtplib.SMTP('smtp.gmail.com', 587)
-    server.ehlo()
-    server.starttls()
-     
-    # Enable low security in gmail
-    server.login('your email id', 'your email password')
-    server.sendmail('your email id', to, content)
-    server.close()

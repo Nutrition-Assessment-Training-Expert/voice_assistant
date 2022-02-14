@@ -3,10 +3,9 @@
 Created on Mon Feb 14 00:39:28 2022
 
 @author: alug
-# Example from https://www.geeksforgeeks.org/voice-assistant-using-python/
+
 """
 from utils import *
-
 
 
 
@@ -237,7 +236,7 @@ if __name__ == '__main__':
         # NPPR9-FWDCX-D2C8J-H872K-2YT43
         elif "jarvis" in query:
              
-            wishMe()
+            greet()
             speak("Jarvis 1 point o in your service Mister")
             speak(assname)
  
