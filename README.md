@@ -1,5 +1,5 @@
-# voice_assistant
-The voice assistant python app
+# The voice assistant app
+The voice assistant python app (draft)
 
 # Installing pyaudio (Windows)
 
