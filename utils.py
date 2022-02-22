@@ -4,6 +4,7 @@ import pyttsx3
 import speech_recognition as sr
 import datetime
 import shutil
+import random
 
 # Defining the voice for pyttsx3
 
@@ -20,7 +21,7 @@ def speak(audio:str):
     engine.say(audio)
     engine.runAndWait()
  
-def greet():
+def greet(assname):
     '''Function to greet the user.
     '''
 
@@ -34,27 +35,35 @@ def greet():
     else:
         speak("Good Evening  !") 
   
-    assname =("NATE")
+    # assname =("NATE")
     speak("I am your Assistant")
     speak(assname)
-     
+
+def talk_expressions(name):
+    '''Function with NATE's expressions, randomly choosing one.
+    args:
+    name : user's name (str)
+    '''
+    list = ['Hello there! How are you doing today?',    'How are you feeling?','What are you up to today?',
+    'Hey, how’s it going?','Anything I can support you with?',f'Are you doing alright, {name}?']
+    speak(random.choice(list))
  
 def username():
     '''Function to get user's name
     '''
 
     speak("What should i call you?")
-    uname = takeCommand()
-    speak("Welcome!")
-    speak(uname)
+    name = takeCommand()
+    speak(f"Welcome {name}!")
+
     columns = shutil.get_terminal_size().columns
-     
+
     print("#####################".center(columns))
-    print("Welcome ", uname.center(columns))
+    print("Welcome ", name.center(columns))
     print("#####################".center(columns))
-     
-    speak("How can i Help you")
- 
+
+    return name
+
 def takeCommand():
     '''Function to receive a voice command from the microphone.
     '''
